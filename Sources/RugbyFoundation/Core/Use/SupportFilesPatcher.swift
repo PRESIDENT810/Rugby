@@ -1,4 +1,5 @@
 import Foundation
+import Fish
 
 struct FileReplacement {
     let replacements: [String: String]
@@ -26,6 +27,7 @@ final class SupportFilesPatcher {
     private let PODS_CONFIGURATION_BUILD_DIR = "${PODS_CONFIGURATION_BUILD_DIR}/"
     private let PODS_XCFRAMEWORKS_BUILD_DIR = "${PODS_XCFRAMEWORKS_BUILD_DIR}/"
     private let HEADERS = "Headers"
+    private let SWIFT_COMPATIBILITY_HEADERS = "Swift Compatibility Header"
     // swiftlint:enable identifier_name
 
     private func prepareXCConfigReplacements(target: IInternalTarget) throws -> [FileReplacement] {
@@ -52,9 +54,13 @@ final class SupportFilesPatcher {
                     "\(PODS_XCFRAMEWORKS_BUILD_DIR)\(moduleName)",
                     replacement: "\(binaryFolderPath)/\(moduleName)"
                 ))
+                result.append((
+                    "\(PODS_CONFIGURATION_BUILD_DIR)\(moduleName)/\(SWIFT_COMPATIBILITY_HEADERS)",
+                    replacement: "\(binaryFolderPath)/\(SWIFT_COMPATIBILITY_HEADERS)"
+                ))
             }
         }
-
+//        print(target.name)
         let replacements = buildMap(from: replacementsPairs,
                                     modifyKey: \.quoted,
                                     modifyValue: \.quoted)
