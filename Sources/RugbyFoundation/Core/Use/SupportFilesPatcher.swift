@@ -41,21 +41,22 @@ final class SupportFilesPatcher {
                            replacement: binaryFolderPath))
 
             guard let moduleName = product.moduleName else { return }
+            let name = product.name
             let moduleMap = "\(moduleName).modulemap"
             result.append(("\(PODS_CONFIGURATION_BUILD_DIR)\(parentFolderName)/\(moduleMap)",
                            replacement: "\(binaryFolderPath)/\(moduleMap)"))
 
             if product.type == .staticLibrary {
                 result.append((
-                    "\(PODS_XCFRAMEWORKS_BUILD_DIR)\(moduleName)/\(HEADERS)",
-                    replacement: "\(binaryFolderPath)/\(moduleName)/\(HEADERS)"
+                    "\(PODS_XCFRAMEWORKS_BUILD_DIR)\(name)/\(HEADERS)",
+                    replacement: "\(binaryFolderPath)/\(name)/\(HEADERS)"
                 ))
                 result.append((
-                    "\(PODS_XCFRAMEWORKS_BUILD_DIR)\(moduleName)",
-                    replacement: "\(binaryFolderPath)/\(moduleName)"
+                    "\(PODS_XCFRAMEWORKS_BUILD_DIR)\(name)",
+                    replacement: "\(binaryFolderPath)/\(name)"
                 ))
                 result.append((
-                    "\(PODS_CONFIGURATION_BUILD_DIR)\(moduleName)/\(SWIFT_COMPATIBILITY_HEADERS)",
+                    "\(PODS_CONFIGURATION_BUILD_DIR)\(name)/\(SWIFT_COMPATIBILITY_HEADERS)",
                     replacement: "\(binaryFolderPath)/\(SWIFT_COMPATIBILITY_HEADERS)"
                 ))
             }
